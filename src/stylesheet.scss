@@ -1,0 +1,19 @@
+//@import url('https://fonts.googleapis.com/css?family=...');
+$fonts: sans-serif;
+$primary-color: #000;
+$alt-color: #fff;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  min-width: 320px;
+  font-family: $fonts;
+  color: $primary-color;
+}
