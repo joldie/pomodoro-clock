@@ -1,7 +1,9 @@
-//@import url('https://fonts.googleapis.com/css?family=...');
-$fonts: sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+@import url('//db.onlinewebfonts.com/c/63f874d192fb3892d88d5e26f942b5e2?family=DS-Digital');
+$fonts: 'Roboto Slab',
+serif;
 $primary-color: #000;
-$alt-color: #fff;
+$alt-color: lightblue;
 * {
   margin: 0;
   padding: 0;
@@ -16,4 +18,188 @@ body,
   min-width: 320px;
   font-family: $fonts;
   color: $primary-color;
+}
+
+.page-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+header {
+  position: absolute;
+  top: 10px;
+  text-align: center;
+}
+
+.clock-wrapper {
+  width: 300px;
+  height: 300px;
+  margin-left: 10px;
+  margin-right: 10px;
+  .clock {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #time-left {
+      font-family: 'DS-Digital';
+      font-size: 80px;
+    }
+  }
+  #timer-label {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    bottom: 220px;
+  }
+  #start_stop {
+    position: relative;
+    bottom: 350px;
+    left: 110px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #reset {
+    position: relative;
+    bottom: 140px;
+    left: 110px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.break-wrapper {
+  width: 80px;
+  height: 80px;
+  .break {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #break-length {
+      font-size: 30px;
+      font-family: 'DS-Digital';
+    }
+  }
+  #break-label {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 20px;
+    font-size: 10px;
+  }
+  #break-increment {
+    position: relative;
+    bottom: 105px;
+    left: 25px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #break-decrement {
+    position: relative;
+    bottom: 60px;
+    left: 25px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.session-wrapper {
+  width: 80px;
+  height: 80px;
+  .session {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #session-length {
+      font-size: 30px;
+      font-family: 'DS-Digital';
+    }
+  }
+  #session-label {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 20px;
+    font-size: 10px;
+  }
+  #session-increment {
+    position: relative;
+    bottom: 105px;
+    left: 25px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #session-decrement {
+    position: relative;
+    bottom: 60px;
+    left: 25px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid white;
+    background-color: $alt-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  font-size: 10px;
+  a {
+    text-decoration: none;
+    color: $primary-color;
+  }
+}
+
+@media (max-width: 320px) {
+  // Move break/session setting divs below clock
 }
