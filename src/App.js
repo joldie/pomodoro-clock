@@ -1,5 +1,6 @@
 import React from 'react';
 import './stylesheet.css';
+const accurateInterval = require('./Accurate_Interval.js');
 
 class Timer extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Timer extends React.Component {
     this.formatTimeLeft = this.formatTimeLeft.bind(this);
   }
   reset() {
-    clearInterval(this.state.intervalID);
+    this.state.intervalID && this.state.intervalID.cancel();
     this.setState({
       breakMinutes: 5,
       sessionMinutes: 25,
@@ -32,7 +33,7 @@ class Timer extends React.Component {
   }
   timerStartStop() {
     if (this.state.timerRunning) {
-      clearInterval(this.state.intervalID);
+      this.state.intervalID && this.state.intervalID.cancel();
       this.setState({
         timerRunning: false
       });
@@ -45,7 +46,7 @@ class Timer extends React.Component {
   }
   timerStartCountdown() {
     this.setState({
-      intervalID: setInterval(() => {
+      intervalID: accurateInterval(() => {
         this.decrementTimer();
         this.modeControl();
       }, 1000)
@@ -68,8 +69,7 @@ class Timer extends React.Component {
         });
       }
       // Beep sound...
-
-      clearInterval(this.state.intervalID);
+      this.state.intervalID && this.state.intervalID.cancel();
       this.timerStartCountdown();
     }
   }
