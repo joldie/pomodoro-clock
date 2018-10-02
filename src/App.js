@@ -49,7 +49,8 @@ class Clock extends React.Component {
       mode: 'Session',
       timerRunning: false,
       secondsLeft: 1500,
-      intervalID: ''
+      intervalID: '',
+      alarmColor: { color: 'black' }
     }
     this.reset = this.reset.bind(this);
     this.timerStartStop = this.timerStartStop.bind(this);
@@ -59,7 +60,8 @@ class Clock extends React.Component {
     this.formatTimeLeft = this.formatTimeLeft.bind(this);
     this.setBreakLength = this.setBreakLength.bind(this);
     this.setSessionLength = this.setSessionLength.bind(this);
-    this.playBeep = this.playBeep.bind(this);
+    this.beep = this.beep.bind(this);
+    this.warning = this.warning.bind(this);
   }
   reset() {
     this.state.intervalID && this.state.intervalID.cancel();
@@ -71,7 +73,8 @@ class Clock extends React.Component {
       mode: 'Session',
       timerRunning: false,
       secondsLeft: 1500,
-      intervalID: ''
+      intervalID: '',
+      alarmColor: { color: 'black' }
     });
   }
   timerStartStop() {
@@ -100,7 +103,8 @@ class Clock extends React.Component {
   }
   modeControl() {
     let timeLeft = this.state.secondsLeft;
-    this.playBeep(timeLeft);
+    this.beep(timeLeft);
+    this.warning(timeLeft);
     if (timeLeft < 0) {
       if (this.state.mode === 'Session') {
         this.setState({
@@ -162,10 +166,15 @@ class Clock extends React.Component {
       }
     }
   }
-  playBeep(timeLeft) {
+  beep(timeLeft) {
     if (timeLeft === 0) {
       this.audioBeep.play();
     }
+  }
+  warning(timeLeft) {
+    timeLeft <= 60 ?
+      this.setState({ alarmColor: { color: 'red' } }) :
+      this.setState({ alarmColor: { color: 'black' } });
   }
   render() {
     let startStopStyle;
@@ -179,11 +188,11 @@ class Clock extends React.Component {
         <div className="clock-wrapper">
           <BreakSettings length={this.state.breakMinutes}
             changeBreak={this.setBreakLength} />
-          <div className="timer-wrapper">
+          <div className="timer-wrapper" style={this.state.alarmColor}>
             <div className="timer">
               <div id="time-left">{this.formatTimeLeft()}</div>
             </div>
-            <div id="timer-label">{this.state.mode}</div>
+            <div id="timer-label" style={this.state.alarmColor}>{this.state.mode}</div>
             <button id="start_stop" onClick={this.timerStartStop}>
               <h1><i className={startStopStyle}></i></h1>
             </button>
