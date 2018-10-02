@@ -7,33 +7,92 @@ class Timer extends React.Component {
     this.state = {
       breakMinutes: 5,
       sessionMinutes: 25,
-      mode: 'Session', // Need a mode for "Stopped"? If stopped ...
-      secondsLeft: 1500
+      mode: 'Session',
+      timerRunning: false,
+      secondsLeft: 1500,
+      intervalID: ''
     }
     this.reset = this.reset.bind(this);
+    this.timerStartStop = this.timerStartStop.bind(this);
+    this.timerStartCountdown = this.timerStartCountdown.bind(this);
+    this.decrementTimer = this.decrementTimer.bind(this);
+    this.modeControl = this.modeControl.bind(this);
+    this.formatTimeLeft = this.formatTimeLeft.bind(this);
   }
   reset() {
+    clearInterval(this.state.intervalID);
     this.setState({
       breakMinutes: 5,
       sessionMinutes: 25,
       mode: 'Session',
-      secondsLeft: 1500
+      timerRunning: false,
+      secondsLeft: 1500,
+      intervalID: ''
     });
   }
-  render() {
-    let minutes = Math.round(this.state.secondsLeft / 60);
+  timerStartStop() {
+    if (this.state.timerRunning) {
+      clearInterval(this.state.intervalID);
+      this.setState({
+        timerRunning: false
+      });
+    } else {
+      this.timerStartCountdown();
+      this.setState({
+        timerRunning: true
+      });
+    }
+  }
+  timerStartCountdown() {
+    this.setState({
+      intervalID: setInterval(() => {
+        this.decrementTimer();
+        this.modeControl();
+      }, 1000)
+    });
+  }
+  decrementTimer() {
+    this.setState({ secondsLeft: this.state.secondsLeft - 1 });
+  }
+  modeControl() {
+    if (this.state.secondsLeft < 0) {
+      if (this.state.mode === 'Session') {
+        this.setState({
+          mode: 'Break',
+          secondsLeft: this.state.breakMinutes * 60
+        });
+      } else {
+        this.setState({
+          mode: 'Session',
+          secondsLeft: this.state.sessionMinutes * 60
+        });
+      }
+      // Beep sound...
+
+      clearInterval(this.state.intervalID);
+      this.timerStartCountdown();
+    }
+  }
+  formatTimeLeft() {
+    let minutes = Math.floor(this.state.secondsLeft / 60);
     let seconds = this.state.secondsLeft % 60;
     if (seconds < 10) { seconds = '0' + seconds; }
+    if (minutes < 10) { minutes = '0' + minutes; }
+    return minutes + ':' + seconds;
+  }
+  render() {
+    let startStopStyle;
+    this.state.timerRunning ? startStopStyle = "fas fa-pause" : startStopStyle = "fas fa-play";
     return (
       <div className="timer-wrapper">
         <div className="timer">
-          <div id="time-left">{minutes}:{seconds}</div>
+          <div id="time-left">{this.formatTimeLeft()}</div>
         </div>
-        <div id="timer-label">Session</div>
-        <div id="start_stop">
-          <h1><i className="fas fa-play"></i></h1>
+        <div id="timer-label">{this.state.mode}</div>
+        <div id="start_stop" onClick={this.timerStartStop}>
+          <h1><i className={startStopStyle}></i></h1>
         </div>
-        <div id="reset">
+        <div id="reset" onClick={this.reset}>
           <h1><i className="fas fa-redo"></i></h1>
         </div>
       </div>
